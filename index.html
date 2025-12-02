@@ -50,7 +50,7 @@
           <span id ="date"class="date font"></span>
           <span class="font" id="code"></span>
           <div class="ticket-info">
-            
+
           </div>
         </div>
       </div>
@@ -71,17 +71,17 @@
           <span class="form-title font">Full Name</span>
 
           <div style="margin-top: 10px;margin-bottom: 10px;">
-            <input id="namec" class="name" type="text">
+            <input id="namec" class="name" type="text" required>
           </div>
           <span class="form-title font">Email Address</span>
           <div style="margin-top: 10px;margin-bottom: 10px;">
-            <input id="mail" class="name" type="email" placeholder=" example@email.com">
+            <input id="mail" class="name" type="email" placeholder=" example@email.com" required>
             <span class="font" id="emailerror"
               style="display: none;font-size: 14px; color: rgb(188, 53, 53); margin-top: 20px;">invalid Email</span>
           </div>
           <span class="form-title font">Github Username</span>
           <div style="margin-top: 10px;margin-bottom: 10px;">
-            <input id="git" class="name" type="text" placeholder=" @yourusername">
+            <input id="git" class="name" type="text" placeholder=" @yourusername" required>
             <span class="font" id="giterror"
               style="display: none;font-size: 14px; color: rgb(188, 53, 53); margin-top: 20px;">Please Start with
               @</span>
@@ -117,7 +117,6 @@
   return result;
 }
 
-const randomCode = generateRandomCode();
     // Prevent default drag behaviors
     ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
       fileArea.addEventListener(eventName, e => e.preventDefault());
@@ -168,49 +167,60 @@ const randomCode = generateRandomCode();
 
     // Form validation and ticket generation
     function generate() {
+  const file = fileInput.files[0];
 
-      const d = new Date();
-      const formattedDate = `${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${String(d.getFullYear()).slice(-2)}`;
-      let fname = cname.value;
-      let git = gitverify.value;
-      let email = emailverify.value;
-      const valid = /[^a-zA-Z0-9@.]/.test(email);
-      let status = false;
+  // File required
+  if (!file) {
+    showerror.style.display = "block";
+    return;
+  }
 
-      for (let input of inputverify) {
-        if (!input.value.trim()) {
-          status = true;
-          break;
-        }
-      }
+  const randomCode = generateRandomCode();
 
-      if (valid) {
-        document.getElementById("emailerror").style.display = "block";
-      } else {
-        document.getElementById("emailerror").style.display = "none";
-      }
+  const d = new Date();
+  const formattedDate = `${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${String(d.getFullYear()).slice(-2)}`;
 
-      if (git.startsWith("@")) {
-        document.getElementById("giterror").style.display = "none";
-      } else {
-        document.getElementById("giterror").style.display = "block";
-      }
+  let fname = cname.value;
+  let git = gitverify.value.trim();
+  let email = emailverify.value.trim();
 
-      if (status) {
-        showerror.style.display = "block";
-      } else {
-        document.getElementById("subheading").style.fontSize="10px";
-        document.getElementById("subheading").style.width="240px";
-        document.getElementById("code").innerHTML="# " + randomCode;
-        document.getElementById("heading").style.fontSize = "24px"
-        document.getElementById("subheading").innerHTML = "We have emailed your ticket to " + email + " and will send updates in the run up to the event"
-        document.getElementById("afterbox").style.display = "block"
-        document.getElementById("heading").innerText = "Congrats," + fname + " Your ticket is ready";
-        document.getElementById("textbox").style.display = "none";
-        document.getElementById("date").innerHTML=formattedDate;
+  // VALIDATIONS
+  let emailValid =  /^[a-zA-Z0-9@.]+$/.test(email);
+  let gitValid = git.startsWith("@") && git.length > 1;
 
-      }
+  let emptyField = false;
+  for (let input of inputverify) {
+    if (!input.value.trim()) {
+      emptyField = true;
+      break;
     }
+  }
+
+  // Show/hide errors
+  document.getElementById("emailerror").style.display = emailValid ? "none" : "block";
+  document.getElementById("giterror").style.display = gitValid ? "none" : "block";
+
+  // If any invalid → stop
+  if (!emailValid || !gitValid || emptyField) {
+    showerror.style.display = "block";
+    return;
+  }
+
+  // ALL GOOD → SHOW TICKET
+  showerror.style.display = "none";
+  document.getElementById("subheading").style.fontSize = "10px";
+  document.getElementById("subheading").style.width = "240px";
+  document.getElementById("code").innerHTML = "# " + randomCode;
+  document.getElementById("heading").style.fontSize = "24px";
+  document.getElementById("subheading").innerHTML =
+    "We have emailed your ticket to " + email + " and will send updates in the run up to the event";
+  document.getElementById("afterbox").style.display = "block";
+  document.getElementById("heading").innerText = "Congrats, " + fname + " Your ticket is ready";
+  document.getElementById("textbox").style.display = "none";
+  document.getElementById("date").innerHTML = formattedDate;
+}
+
+
   </script>
 
 </body>
