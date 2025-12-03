@@ -42,15 +42,25 @@
       </p>
       <span id="error" style="display: none;font-size: 14px; color: rgb(188, 53, 53); margin-top: 20px;"
         class="font">Please fill all the fields</span>
-      <div id="afterbox">
+       <div id="afterbox">
         <div class="image">
-        <img class="after-box" src="pattern-ticket.svg" alt="">
+          <img class="after-box" src="pattern-ticket.svg" alt="">
           <img class="ticketlogo" src="logo-full.svg" alt="">
 
-          <span id ="date"class="date font"></span>
+          <span id="date" class="date font"></span>
           <span class="font" id="code"></span>
-          <div class="ticket-info">
 
+
+
+          <div class="ticket-info">
+              <img id="image" src="" alt="">
+              <div class="person-info">
+                <span class="font" id="username">KRISH Prajapati</span>
+                  <div class="github">
+                    <img src="icon-github.svg" alt="">
+                      <span class="font" id="github"></span>
+                  </div>
+              </div>
           </div>
         </div>
       </div>
@@ -159,7 +169,9 @@
 
       const reader = new FileReader();
       reader.onload = e => {
-        filePreview.src = e.target.result; // change the img src
+        filePreview.src = e.target.result; 
+        document.getElementById("image").src=e.target.result;
+// change the img src
       };
       reader.readAsDataURL(file);
     }
@@ -218,6 +230,8 @@
   document.getElementById("heading").innerText = "Congrats, " + fname + " Your ticket is ready";
   document.getElementById("textbox").style.display = "none";
   document.getElementById("date").innerHTML = formattedDate;
+       document.getElementById("username").innerHTML=fname;
+      document.getElementById("github").innerHTML=git;
 }
 
 
