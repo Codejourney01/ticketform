@@ -161,6 +161,39 @@
     color: white;
     transform: rotate(90deg);
 }
+.ticket-info{
+    position: absolute;
+    left: 30px;
+    gap: 10px;
+    align-items: center;
+    display: flex;
+    bottom: 60px;
+}
+#username{
+    font-size: 18px;
+    font-weight: 500;
+    color: white;
+    text-transform: uppercase;
+
+}
+.ticket-info img{
+    width: 50px;
+}
+.github{
+    display: flex;
+     padding-top: 4px;
+    align-items: center;
+}
+.github img{
+    width: 12px;
+    height: 12px;
+}
+#github{
+   
+    font-size: 13px;
+    font-weight: 550;
+    color: hsla(252, 5%, 62%, 0.932);
+}
 
 
 
@@ -181,4 +214,8 @@
     #code{
         top:80px;
         right:0px;
+}
+     .ticket-info{
+        bottom: 30px;
+    }
 }
