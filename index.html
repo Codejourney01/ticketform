@@ -42,7 +42,7 @@
       </p>
       <span id="error" style="display: none;font-size: 14px; color: rgb(188, 53, 53); margin-top: 20px;"
         class="font">Please fill all the fields</span>
-       <div id="afterbox">
+      <div id="afterbox">
         <div class="image">
           <img class="after-box" src="pattern-ticket.svg" alt="">
           <img class="ticketlogo" src="logo-full.svg" alt="">
@@ -64,6 +64,10 @@
           </div>
         </div>
       </div>
+
+
+
+
       <div id="textbox" class="form-fields">
         <form id="form" action="">
           <span class="form-title font">Upload Avatar</span>
@@ -112,20 +116,20 @@
     let formdata = document.getElementById("form");
     let emailverify = document.getElementById("mail");
     let gitverify = document.getElementById("git");
-    let character="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    let character = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
     const fileArea = document.querySelector(".file-area");
     const fileInput = document.getElementById("fileElem");
     const filePreview = fileArea.querySelector("img"); // existing img inside file-area
 
     function generateRandomCode(length = 5) {
-  let result = "";
-  for (let i = 0; i < length; i++) {
-    const randomIndex = Math.floor(Math.random() * character.length);
-    result += character[randomIndex];
-  }
-  return result;
-}
+      let result = "";
+      for (let i = 0; i < length; i++) {
+        const randomIndex = Math.floor(Math.random() * character.length);
+        result += character[randomIndex];
+      }
+      return result;
+    }
 
     // Prevent default drag behaviors
     ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
@@ -171,68 +175,69 @@
       reader.onload = e => {
         filePreview.src = e.target.result; 
         document.getElementById("image").src=e.target.result;
-// change the img src
+        // change the img src
       };
       reader.readAsDataURL(file);
     }
-  
+
 
     // Form validation and ticket generation
     function generate() {
-  const file = fileInput.files[0];
+      const file = fileInput.files[0];
 
-  // File required
-  if (!file) {
-    showerror.style.display = "block";
-    return;
-  }
+      // File required
+      if (!file) {
+        showerror.style.display = "block";
+        return;
+      }
 
-  const randomCode = generateRandomCode();
+      const randomCode = generateRandomCode();
 
-  const d = new Date();
-  const formattedDate = `${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${String(d.getFullYear()).slice(-2)}`;
+      const d = new Date();
+      const formattedDate = `${String(d.getDate()).padStart(2, '0')}/${String(d.getMonth() + 1).padStart(2, '0')}/${String(d.getFullYear()).slice(-2)}`;
 
-  let fname = cname.value;
-  let git = gitverify.value.trim();
-  let email = emailverify.value.trim();
+      let fname = cname.value;
+      let git = gitverify.value.trim();
+      let email = emailverify.value.trim();
 
-  // VALIDATIONS
-  let emailValid =  /^[a-zA-Z0-9@.]+$/.test(email);
-  let gitValid = git.startsWith("@") && git.length > 1;
+      // VALIDATIONS
+      let emailValid = /^[a-zA-Z0-9@.]+$/.test(email);
+      let gitValid = git.startsWith("@") && git.length > 1;
 
-  let emptyField = false;
-  for (let input of inputverify) {
-    if (!input.value.trim()) {
-      emptyField = true;
-      break;
-    }
-  }
+      let emptyField = false;
+      for (let input of inputverify) {
+        if (!input.value.trim()) {
+          emptyField = true;
+          break;
+        }
+      }
 
-  // Show/hide errors
-  document.getElementById("emailerror").style.display = emailValid ? "none" : "block";
-  document.getElementById("giterror").style.display = gitValid ? "none" : "block";
+      // Show/hide errors
+      document.getElementById("emailerror").style.display = emailValid ? "none" : "block";
+      document.getElementById("giterror").style.display = gitValid ? "none" : "block";
 
-  // If any invalid → stop
-  if (!emailValid || !gitValid || emptyField) {
-    showerror.style.display = "block";
-    return;
-  }
+      // If any invalid → stop
+      if (!emailValid || !gitValid || emptyField) {
+        showerror.style.display = "block";
+        return;
+      }
 
-  // ALL GOOD → SHOW TICKET
-  showerror.style.display = "none";
-  document.getElementById("subheading").style.fontSize = "10px";
-  document.getElementById("subheading").style.width = "240px";
-  document.getElementById("code").innerHTML = "# " + randomCode;
-  document.getElementById("heading").style.fontSize = "24px";
-  document.getElementById("subheading").innerHTML =
-    "We have emailed your ticket to " + email + " and will send updates in the run up to the event";
-  document.getElementById("afterbox").style.display = "block";
-  document.getElementById("heading").innerText = "Congrats, " + fname + " Your ticket is ready";
-  document.getElementById("textbox").style.display = "none";
-  document.getElementById("date").innerHTML = formattedDate;
-       document.getElementById("username").innerHTML=fname;
+      // ALL GOOD → SHOW TICKET
+      showerror.style.display = "none";
+      document.getElementById("subheading").style.fontSize = "10px";
+      document.getElementById("subheading").style.width = "240px";
+      document.getElementById("code").innerHTML = "# " + randomCode;
+      document.getElementById("heading").style.fontSize = "24px";
+      document.getElementById("subheading").innerHTML =
+        "We have emailed your ticket to " + email + " and will send updates in the run up to the event";
+      document.getElementById("afterbox").style.display = "block";
+      document.getElementById("heading").innerText = "Congrats, " + fname + " Your ticket is ready";
+      document.getElementById("textbox").style.display = "none";
+      document.getElementById("date").innerHTML = formattedDate;
+      document.getElementById("username").innerHTML=fname;
       document.getElementById("github").innerHTML=git;
-}
+      
+    }
 
 
   </script>
