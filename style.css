@@ -218,3 +218,9 @@
     .ticket-info{
         bottom: 20px;
 }
+    #username{
+        font-size:15px;
+    }
+    #github{
+        font-size:11px;
+}
